@@ -1,0 +1,37 @@
+---
+title: "My Fancy Presentation"
+author: "Barbara Verhaar"
+date: "12/13/2020"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R Markdown
+These are my slides for the Developing Data Products course on Coursera. I'm in week 2 now and practicing with R Markdown presentations.
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+1. **Item one**
+2. *Item two*
+
+## My new slide
+Some content
+
+## Slide with R Output
+
+```{r cars, comment = ""}
+summary(cars)
+```
+This is a summary of the cars dataframe.
+
+## Another slide with plot
+```{r, echo = FALSE, fig.align = "center", fig.cap="plot mtcars"}
+plot(mtcars$wt, mtcars$mpg, xlab = "Weight", ylab = "MPG")
+```
