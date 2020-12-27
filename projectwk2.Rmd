@@ -1,0 +1,45 @@
+---
+title: "Course project week 2 - Data Products"
+author: "Barbara Verhaar"
+date: "12/27/2020"
+output: html_document
+---
+
+```{r echo=FALSE, message=FALSE}
+library(tmap)
+library(leaflet)
+library(stars)
+library(RColorBrewer)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.align='center', fig.cap="source: Statistics Netherlands (CBS) and Kadaster Nederland"}
+data("NLD_prov")
+nl <- NLD_prov
+nl$geometry <- st_transform(NLD_prov$geometry, "+init=epsg:4326")
+nl$fem_prop <- nl$pop_women/nl$population*100
+
+pal_fem <- colorNumeric("Reds", nl$fem_prop)
+pal_old <- colorNumeric("Greys", nl$pop_65plus)
+
+nl %>% 
+    leaflet() %>% 
+    setView(5.389, 52.208, zoom=7) %>% 
+    addTiles() %>% 
+    addPolygons(data = nl, weight = 1, color = "black", smoothFactor = 0.5, fillOpacity = 0.5, 
+                fillColor = ~pal_fem(fem_prop), label = ~paste0(name, ": ", formatC(fem_prop, big.mark = "'")), 
+                group = "Proportion women (NL)")  %>% 
+    addLegend(pal = pal_fem, values = nl$fem_prop, opacity = 0.8,
+            labFormat = labelFormat(big.mark = "'"),
+            title = "Proportion women in %") %>% 
+    addPolygons(data = nl, weight = 1, color = "black", smoothFactor = 0.5, fillOpacity = 0.5, 
+                fillColor = ~pal_old(pop_65plus), label = ~paste0(name, ": ", formatC(pop_65plus, big.mark = "'")), 
+                group = "Proportion 65+ years (NL)")  %>% 
+    addLegend(pal = pal_old, values = nl$pop_65plus, opacity = 0.8,
+            labFormat = labelFormat(big.mark = "'"),
+            title = "Proportion 65+y in %") %>% 
+  addLayersControl(
+    overlayGroups = c("Proportion women (NL)", "Proportion 65+ years (NL)"),
+    position = "bottomright",
+    options = layersControlOptions(collapsed = FALSE)
+  )
+```
