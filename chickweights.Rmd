@@ -1,0 +1,38 @@
+---
+title: "Chick weights presentation"
+author: "Barbara Verhaar"
+date: "12/27/2020"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Chick weight increase over time
+```{r, message = FALSE, warning=FALSE, fig.align = "center", fig.cap="chick weights"}
+library(datasets)
+data("ChickWeight")
+df <- ChickWeight
+
+library(ggplot2)
+library(RColorBrewer)
+library(plotly)
+pal1 <- colorRampPalette(brewer.pal(12, "Set1"))
+p <- ggplot(df) +
+    geom_line(aes(x=Time, y=weight, color=Chick, linetype=Diet)) +
+    scale_color_manual(values = pal1(50)) +
+    theme_minimal() +
+    theme(legend.position = "none")
+(gg <- ggplotly(p))
+```
+
+## Comparison chick weight per diet
+```{r, message = FALSE, warning=FALSE, fig.align='center', fig.cap='Comparison of diets'}
+p2 <- ggplot(df, aes(x=Time, y=weight, color=Diet)) +
+    geom_point(aes(x=Time, y=weight, text=paste("Chick: ", Chick))) +
+    geom_smooth() +
+    scale_color_manual(values=brewer.pal(4, "Set1")) +
+    theme_minimal()
+(gg2 <- ggplotly(p2))
+```
