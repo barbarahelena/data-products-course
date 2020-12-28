@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ## Chick weight increase over time
-```{r, message = FALSE, warning=FALSE, fig.align = "center", fig.cap="chick weights"}
+```{r, message = FALSE, warning=FALSE, fig.align = "center", fig.cap="source: ChickWeight data set"}
 library(datasets)
 data("ChickWeight")
 df <- ChickWeight
